@@ -48,3 +48,12 @@ export type DroppedItem = {
       type: string;
     }[];
   };
+export type content = {
+    id: number;
+    blocks: any[];
+    title: string;
+    width: string;
+    type: string;
+}[]
+
+  export type e  = React.DragEvent<HTMLDivElement>
