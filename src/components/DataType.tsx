@@ -55,5 +55,12 @@ export type content = {
     width: string;
     type: string;
 }[]
+export type AddItemAtAction = {
+    type: 'UPDATE_ITEM';
+    payload: {
+      item: DroppedItem;
+      index: number;
+    };
+  };
 
   export type e  = React.DragEvent<HTMLDivElement>

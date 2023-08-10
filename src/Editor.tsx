@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { styleData } from './components/Style';
 import { GridBox, components, initialState } from './components/data';
-import { DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
+import { AddItemAtAction, DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
 import { MdFormatAlignLeft } from "react-icons/md"
 import { RxButton } from "react-icons/rx"
 import { BsCardImage, BsShareFill } from "react-icons/bs"
@@ -12,12 +12,13 @@ import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 
 
-const reducer = (state: DroppedItem[], action: any) => {
+const reducer = (state: DroppedItem[], action: AddItemAtAction) => {
   switch (action.type) {
-    case 'ADD_ITEM':
-      return [...state, action.payload];
-    case 'REMOVE_ITEM':
-      return state.filter(item => item !== action.payload);
+    case 'UPDATE_ITEM':
+      const { item, index } = action.payload;
+      const newState = [...state];
+      newState.splice(index, 0, item);
+      return newState;
     default:
       return state;
   }
@@ -38,19 +39,26 @@ function Editor() {
   const handleDragStart2 = (item: DragStart2, e: e) => {
 
   }
-  const handleDrop = (e:e, item2:content) => {
+  const handleDrop = (e: e, item2: content) => {
     e.preventDefault();
   }
-  const handleDrop2 = (e:e) => {
+  const updateItem = (item: DroppedItem, index: number): AddItemAtAction => ({
+    type: 'UPDATE_ITEM',
+    payload: {
+      item,
+      index,
+    },
+  });
+  const handleDrop2 = (e: e) => {
     e.preventDefault();
     const content = e.dataTransfer.getData('text/plain');
-    if(content && content !== "undefined") {
+    if (content && content !== "undefined") {
       if (JSON.parse(content).content) {
-        const closestContainer = Number((e.target as HTMLElement).closest('.new_container')?.getAttribute("data-id"));
-        dispatch({ type: 'ADD_ITEM', payload: newItem });
+        const closestContainer = Number((e.target as HTMLElement).closest('.new_container')?.getAttribute("data-id")) ?? 0;
+        dispatch(updateItem(JSON.parse(content), 2));
       }
     }
-    console.log(e.target,content);
+    console.log(e.target, content);
   }
   return (
     <div className='main_cont'>
@@ -100,30 +108,30 @@ function Editor() {
         </Accordion.Item>
       </Accordion>
       <div className="drop-area" style={combinedStyles["drop-area"]}
-       onDragOver={handleDragOver}
-       onDrop={(e) => handleDrop2(e)}
-       >
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop2(e)}
+      >
         <div style={combinedStyles["Box1"]}>
           {
-            droppedItems.map((item,index) => {
-              const {content} = item;
-              return(
+            droppedItems.map((item, index) => {
+              const { content } = item;
+              return (
                 <div className='container new_container' data-id={index} key={index}
-                style={combinedStyles["Box2"]}>
+                  style={combinedStyles["Box2"]}>
                   {Array.isArray(content) &&
-                  content.map((item2, index2) => (
-                    <div  className={"column1"}  key={index2} 
-                    style={{ ...combinedStyles["Box3"], width: item2.width }}
-                    onDrop={(e) => handleDrop(e, item2)}
-                    >
-                     {item2.blocks.length === 0 ? (
-                        <div className='drop_content' style={{ fontSize: " 11px", margin: "20px 0px", textAlign: "center" }}>
-                          <PiUploadSimple />
-                          <div>Drop Content Here</div>
-                        </div>
-                      ) : ""}
-                    </div>
-                  ))
+                    content.map((item2, index2) => (
+                      <div className={"column1"} key={index2}
+                        style={{ ...combinedStyles["Box3"], width: item2.width }}
+                        onDrop={(e) => handleDrop(e, [item2])}
+                      >
+                        {item2.blocks.length === 0 ? (
+                          <div className='drop_content' style={{ fontSize: " 11px", margin: "20px 0px", textAlign: "center" }}>
+                            <PiUploadSimple />
+                            <div>Drop Content Here</div>
+                          </div>
+                        ) : ""}
+                      </div>
+                    ))
                   }
                 </div>
               )
