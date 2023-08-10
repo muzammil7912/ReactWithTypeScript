@@ -39,27 +39,29 @@ export type DragStart2 = {
         };
     }[]
 }
-export type DroppedItem = {
-    content: {
-      id: number;
-      blocks: any[];
-      title: string;
-      width: string;
-      type: string;
-    }[];
-  };
-export type content = {
+export type Content = {
     id: number;
     blocks: any[];
     title: string;
     width: string;
     type: string;
-}[]
-export type AddItemAtAction = {
+  };
+export type DroppedItem = {
+    content: Content[];
+  };
+export type content = Content[]
+export type UpdateItemAtAction = {
     type: 'UPDATE_ITEM';
     payload: {
       item: DroppedItem;
       index: number;
+    };
+  };
+export type AddItemAtAction = {
+    type?: 'ADD_BLOCK';
+    payload: {
+      item?: DragStart2;
+      index?: number;
     };
   };
 

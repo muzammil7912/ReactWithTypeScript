@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { styleData } from './components/Style';
 import { GridBox, components, initialState } from './components/data';
-import { AddItemAtAction, DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
+import { AddItemAtAction, DragStart, DragStart2, DroppedItem, UpdateItemAtAction, content, e } from './components/DataType';
 import { MdFormatAlignLeft } from "react-icons/md"
 import { RxButton } from "react-icons/rx"
 import { BsCardImage, BsShareFill } from "react-icons/bs"
@@ -12,17 +12,37 @@ import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 
 
-const reducer = (state: DroppedItem[], action: AddItemAtAction) => {
+const reducer = (state: DroppedItem[], action: AddItemAtAction | UpdateItemAtAction) => {
   switch (action.type) {
     case 'UPDATE_ITEM':
       const { item, index } = action.payload;
       const newState = [...state];
       newState.splice(index, 0, item);
       return newState;
+    case 'ADD_BLOCK':
+      const { item: addItem, index: addIndex } = action.payload;
+      return state.map((item) => {
+        if (item.content && item.content.some((contentItem) => contentItem.id === addIndex)) {
+          return {
+            ...item,
+            content: item.content.map((contentItem) => {
+              if (contentItem.id === addIndex) {
+                return {
+                  ...contentItem,
+                  blocks: [...contentItem.blocks, addItem],
+                };
+              }
+              return contentItem;
+            }),
+          };
+        }
+        return item;
+      });
     default:
       return state;
   }
 };
+
 function Editor() {
   const combinedStyles: Record<string, React.CSSProperties> = {
     ...styleData,
@@ -32,17 +52,27 @@ function Editor() {
 
   const [droppedItems, dispatch] = useReducer(reducer, initialState);
 
-  const handleDragStart = (item: DragStart, e: e) => {
+  const handleDragStart = (item: DragStart | DragStart2, e: e) => {
     const serializedData = JSON.stringify(item);
     e.dataTransfer.setData('text/plain', serializedData);
   }
-  const handleDragStart2 = (item: DragStart2, e: e) => {
-
-  }
-  const handleDrop = (e: e, item2: content) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, item2: content) => {
     e.preventDefault();
-  }
-  const updateItem = (item: DroppedItem, index: number): AddItemAtAction => ({
+    const draggedItemId = e.dataTransfer.getData('text/plain');
+    if (draggedItemId && draggedItemId !== "undefined") {
+      const draggedBlock = JSON.parse(draggedItemId);
+      if (draggedBlock.content2) {
+        dispatch({
+          type: 'ADD_BLOCK',
+          payload: {
+            item: draggedBlock, // Assign the value directly here
+          },
+        });
+      }
+    }
+  };
+
+  const updateItem = (item: DroppedItem, index: number): UpdateItemAtAction => ({
     type: 'UPDATE_ITEM',
     payload: {
       item,
@@ -58,8 +88,9 @@ function Editor() {
         dispatch(updateItem(JSON.parse(content), 2));
       }
     }
-    console.log(e.target, content);
   }
+
+
   return (
     <div className='main_cont'>
       <Accordion>
@@ -97,7 +128,7 @@ function Editor() {
                   <div className='draggable-item'
                     key={item.id.toString()}
                     draggable={true}
-                    onDragStart={(e) => handleDragStart2(item, e)}>
+                    onDragStart={(e) => handleDragStart(item, e)}>
                     {Icon[index]}
                     <p className='m-0'>{capitalizeFirstLetter(content2[0].type)}</p>
                   </div>
