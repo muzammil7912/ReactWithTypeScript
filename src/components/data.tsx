@@ -1,4 +1,5 @@
-import { DragStart2 } from "./DataType";
+import { DragStart2, DroppedItem } from "./DataType";
+import { MdFormatAlignLeft } from "react-icons/md"
 
 export const GridBox = [
     {
@@ -63,3 +64,11 @@ export const components:DragStart2[] = [
     content2: [{ id: Math.random(), title: "video", type: "video", videoDetails: "", src: "", active: false, checked: "width", style:{width: null, height: null, width2: null, height2: null, align: "left"} }]
 },
 ];
+
+
+export const initialState: DroppedItem[] = [
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems1", width: "100%", type: "structure" }] },
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems2", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems2", width: "50%", type: "structure" }] },
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }] },
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems1", width: "100%", type: "structure" }] },
+  ];

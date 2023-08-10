@@ -37,12 +37,13 @@
 }
 
 .draggable-item {
-  border: 1px solid gray;
-  background-color: white;
+  border: 1px solid #1e9dc8;
   padding: 10px;
-  margin-bottom: 8px;
   cursor: move;
-  border-radius: 10px
+  border-radius: 9px;
+  text-align: center;
+  background: #00a3a5;
+  color: #fff;
 }
 
 .main_cont {
@@ -52,7 +53,6 @@
 }
 
 .drop-container {
-  padding: 20px;
   min-height: 200px;
   transition: background-color 0.3s ease;
   display: grid;

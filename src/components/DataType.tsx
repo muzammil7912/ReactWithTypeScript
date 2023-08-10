@@ -1,3 +1,5 @@
+
+
 export type DragStart = {
     id: Number,
     column: number[],
@@ -37,3 +39,12 @@ export type DragStart2 = {
         };
     }[]
 }
+export type DroppedItem = {
+    content: {
+      id: number;
+      blocks: any[];
+      title: string;
+      width: string;
+      type: string;
+    }[];
+  };

@@ -7,5 +7,6 @@ export const styleData = {
         overflowY: "auto" as 'auto',
         height: "65vh",
         borderRadius: "20px",
-      }
+      },
+      "Box1": { padding: '16px', width: "100%" }
 }
