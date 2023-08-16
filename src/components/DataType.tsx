@@ -5,7 +5,7 @@ export type DragStart = {
     column: number[],
     content: {
         id: number;
-        blocks: never[];
+        blocks: DragStart2[] | never[] | undefined;
         title: string;
         width: string;
         type: string;
@@ -13,11 +13,11 @@ export type DragStart = {
 }
 export type DragStart2 = {
     id: Number,
-    content2: {
+    content2: [{
         id: number;
-        title: string;
+        title?: string;
         type: string;
-        active: boolean;
+        active?: boolean;
         checked?: string;
         videoDetails?: string;
         src?: string;
@@ -27,21 +27,21 @@ export type DragStart2 = {
             align?: string;
             background?: string;
             color?: string;
-            width?: null;
-            height?: null;
-            width2?: null;
-            height2?: null;
-            border?: null;
-            border2?: null;
+            width?: number;
+            height?: number;
+            width2?: number;
+            height2?: number;
+            border?: number;
+            border2?: number;
             bgColor?: string;
             borderRadius?: string;
             fontSize?: string;
         };
-    }[]
+    }]
 }
 export type Content = {
     id: number;
-    blocks: any[];
+    blocks: any;
     title: string;
     width: string;
     type: string;
@@ -49,20 +49,12 @@ export type Content = {
 export type DroppedItem = {
     content: Content[];
   };
-export type content = Content[]
-export type UpdateItemAtAction = {
-    type: 'UPDATE_ITEM';
-    payload: {
-      item: DroppedItem;
-      index: number;
-    };
-  };
-export type AddItemAtAction = {
-    type?: 'ADD_BLOCK';
-    payload: {
-      item?: DragStart2;
-      index?: number;
-    };
-  };
-
+  export type content = Content[]
+export type selctedDetailsType = {
+  type: string;
+  active: boolean;
+  itemIndex1: number;
+  itemIndex2: number;
+  itemIndex3: number;
+}
   export type e  = React.DragEvent<HTMLDivElement>

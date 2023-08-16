@@ -1,26 +1,26 @@
-import { DragStart2, DroppedItem } from "./DataType";
+import { DragStart2, DroppedItem, selctedDetailsType } from "./DataType";
 import { MdFormatAlignLeft } from "react-icons/md"
 
 export const GridBox = [
     {
         id: Math.random(), 
         column: [12],
-        content: [{id: Math.random(),blocks: [],title: "col2",width: "50%",type: "structure",}]
+        content: [{id: Math.random(),blocks: [],title: "col2",width: "100%",type: "structure",}]
     },
     {
         id: Math.random(), 
         column: [5, 5],
-        content: [{id: Math.random(),blocks: [],title: "col2",width: "50%",type: "structure"},{id: Math.random(),blocks: [],title: "col2", width: "50%", type: "structure" }]
+        content: [{id: Math.random(),blocks: [],title: "col2",width: "100%",type: "structure"},{id: Math.random(),blocks: [],title: "col2", width: "100%", type: "structure" }]
     },
     {
         id: Math.random(), 
         column: [3, 3,3],
-        content: [{ id: Math.random(), blocks: [], title: "col3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "col3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "col3", width: "50%", type: "structure" }]
+        content: [{ id: Math.random(), blocks: [], title: "col3", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "col3", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "col3", width: "100%", type: "structure" }]
     },
     {
         id: Math.random(), 
         column: [2,2,2,2],
-        content: [{ id: Math.random(), blocks: [], title: "col4", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "50%", type: "structure" }]
+        content: [{ id: Math.random(), blocks: [], title: "col4", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "col4", width: "100%", type: "structure" }]
     },
     {
         id: Math.random(), 
@@ -41,7 +41,7 @@ export const components:DragStart2[] = [
 },
 {
     id: Math.random(),
-    content2: [{ id: Math.random(), title: "image", type: "image", imageDetails: "", src: "", active: false, checked: "width", style: {width: null, height: null, width2: null, height2: null, align: "left"} }]
+    content2: [{ id: Math.random(), title: "image", type: "image", imageDetails: "", src: "", active: false, checked: "width", style: {width: 0, height: 0, width2: 0, height2: 0, align: "left"} }]
 },
 {
     id: Math.random(),
@@ -57,18 +57,25 @@ export const components:DragStart2[] = [
 },
 {
     id: Math.random(),
-    content2: [{ id: Math.random(), title: "spacer", type: "spacer", active: false,style: { color: "#000000", align: "center",width:null ,width2:null,border:null ,border2:null }}]
+    content2: [{ id: Math.random(), title: "spacer", type: "spacer", active: false,style: { color: "#000000", align: "center",width:0 ,width2:0,border:0 ,border2:0 }}]
 },
 {
     id: Math.random(),
-    content2: [{ id: Math.random(), title: "video", type: "video", videoDetails: "", src: "", active: false, checked: "width", style:{width: null, height: null, width2: null, height2: null, align: "left"} }]
+    content2: [{ id: Math.random(), title: "video", type: "video", videoDetails: "", src: "", active: false, checked: "width", style:{width: 0, height: 0, width2: 0, height2: 0, align: "left"} }]
 },
 ];
 
 
 export const initialState: DroppedItem[] = [
     { content: [{ id: Math.random(), blocks: [], title: "dropItems1", width: "100%", type: "structure" }] },
-    { content: [{ id: Math.random(), blocks: [], title: "dropItems2", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems2", width: "50%", type: "structure" }] },
-    { content: [{ id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "50%", type: "structure" }] },
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems2", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems2", width: "100%", type: "structure" }] },
+    { content: [{ id: Math.random(), blocks: [], title: "dropItems3", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "100%", type: "structure" }, { id: Math.random(), blocks: [], title: "dropItems3", width: "100%", type: "structure" }] },
     { content: [{ id: Math.random(), blocks: [], title: "dropItems1", width: "100%", type: "structure" }] },
   ];
+export const selctedDetails: selctedDetailsType = {
+    type: "",
+    active: false,
+    itemIndex1: 0,
+    itemIndex2: 0,
+    itemIndex3: 0,
+}
