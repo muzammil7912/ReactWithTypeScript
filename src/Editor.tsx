@@ -2,7 +2,7 @@ import React, { useReducer, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { styleData } from './components/Style';
 import { GridBox, components, initialState, selctedDetails } from './components/data';
-import {  DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
+import { DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
 import { MdFormatAlignLeft } from "react-icons/md"
 import { RxButton } from "react-icons/rx"
 import { BsCardImage, BsShareFill } from "react-icons/bs"
@@ -10,6 +10,7 @@ import { CgSpaceBetweenV } from "react-icons/cg"
 import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
+import TextBox from './components/TextBox';
 
 
 
@@ -20,28 +21,29 @@ function Editor() {
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
 
 
-const [allData, setAllData] = useState({
-  "draggedItem":initialState,
-  "selctedDetails": selctedDetails
-})
+  const [allData, setAllData] = useState({
+    "draggedItem": initialState,
+    "selctedDetails": selctedDetails
+  })
 
   const handleDragStart = (item: DragStart | DragStart2, e: e) => {
     const serializedData = JSON.stringify(item);
     e.dataTransfer.setData('text/plain', serializedData);
   }
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, item2: content,index:any,index2:any) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, item2: any, index: any, index2: any) => {
     e.preventDefault();
+
     const draggedItemId = e.dataTransfer.getData('text/plain');
-    if (draggedItemId && draggedItemId !== "undefined") {
+    console.log(item2, "dr", index, draggedItemId)
+    if ((draggedItemId && draggedItemId !== "undefined") && (draggedItemId !== "ere\r\nDro")) {
       const draggedBlock = JSON.parse(draggedItemId);
       if (draggedBlock?.content2) {
         const updatedDraggedItem = [...allData.draggedItem];
-        updatedDraggedItem[index].content[index2].blocks.push(draggedBlock.content2);
+        updatedDraggedItem[index].content[index2].blocks.push(draggedBlock);
         setAllData(prevData => ({
           ...prevData,
           "draggedItem": updatedDraggedItem
         }));
-      console.log(item2,"dr",index,draggedBlock?.content2)
       }
     }
   };
@@ -62,8 +64,13 @@ const [allData, setAllData] = useState({
       }
     }
   }
+  const handleBlockClick = () => {
 
+  }
 
+  const ModuleType: { [key: string]: React.ReactNode } = {
+  "text": <TextBox />,
+}
   return (
     <div className='main_cont'>
       <Accordion>
@@ -120,24 +127,42 @@ const [allData, setAllData] = useState({
             allData.draggedItem?.map((item, index) => {
               const { content } = item;
               return (
-                <div className='container new_container' data-id={index} key={index}
-                  style={combinedStyles["Box2"]}>
+                <div className='container new_container' data-id={index} key={index} style={combinedStyles["Box2"]}>
                   {Array.isArray(content) &&
                     content.map((item2, index2) => (
-                      <div className={"column1"} key={index2}
-                        style={{ ...combinedStyles["Box3"], width: item2.width }}
-                        onDrop={(e) => handleDrop(e, [item2],index,index2)}
+                      <div className={"column1"} key={index2} 
+                      style={{ ...combinedStyles["Box3"], width: item2.width }}
+                      onDrop={(e) => handleDrop(e, item2, index,index2)}
                       >
-                        {Array.isArray(item2.blocks)  ? (
-                          <div className='drop_content' style={{ fontSize: " 11px", margin: "20px 0px", textAlign: "center" }}>
+                        {item2.blocks.length === 0 ? (
+                          <div className='drop_content' style={combinedStyles["Box4"]}>
                             <PiUploadSimple />
                             <div>Drop Content Here</div>
                           </div>
-                        ) : ""}
+                        ) : (
+                          <>
+                            {item2.blocks.map((item3: DragStart2, index3: number) => {
+                              console.log(item3,"ddddd")
+                              const {id,active,type} = item3.content2[0]
+                              return (
+                                <div
+                                  id={id}
+                                  key={index3}
+                                  onClick={(e) => {
+                                    handleBlockClick(); // You might want to pass some arguments here
+                                  }}
+                                  className={`boxStyle ${active && "active"}`}
+                                >
+                                  {ModuleType[type]}
+                                </div>
+                              )
+                            })}
+                          </>
+                        )}
                       </div>
-                    ))
-                  }
+                    ))}
                 </div>
+
               )
             })
           }

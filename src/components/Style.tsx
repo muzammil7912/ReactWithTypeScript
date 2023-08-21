@@ -17,4 +17,9 @@ export const styleData = {
     color: "#8AB7EC",
     borderRadius: "2px",
   },
+  "Box4": {
+    fontSize: "11px", 
+    margin: "20px 0px", 
+    textAlign: "center" as 'center',
+  },
 }

@@ -14,7 +14,7 @@ export type DragStart = {
 export type DragStart2 = {
     id: Number,
     content2: [{
-        id: number;
+        id:any;
         title?: string;
         type: string;
         active?: boolean;
