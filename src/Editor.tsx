@@ -11,6 +11,8 @@ import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import TextBox from './components/TextBox';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 
@@ -19,7 +21,12 @@ function Editor() {
     ...styleData,
   };
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
-
+  const editorConfiguration = {
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'fontSize'],
+    fontSize: {
+      options: [9, 11, 13, 'default', 17, 19, 21]
+    }
+  };
 
   const [allData, setAllData] = useState({
     "draggedItem": initialState,
@@ -34,9 +41,9 @@ function Editor() {
     e.preventDefault();
 
     const draggedItemId = e.dataTransfer.getData('text/plain');
-    console.log(item2, "dr", index, draggedItemId)
-    if ((draggedItemId && draggedItemId !== "undefined") && (draggedItemId !== "ere\r\nDro")) {
-      const draggedBlock = JSON.parse(draggedItemId);
+    try {
+      const dataToTransfer = JSON.stringify(draggedItemId);
+      const draggedBlock = JSON?.parse(dataToTransfer);
       if (draggedBlock?.content2) {
         const updatedDraggedItem = [...allData.draggedItem];
         updatedDraggedItem[index].content[index2].blocks.push(draggedBlock);
@@ -46,23 +53,31 @@ function Editor() {
         }));
       }
     }
+    catch (error) {
+      console.error('Error parsing JSON:', error);
+    }
   };
 
 
   const handleDrop2 = (e: e) => {
     e.preventDefault();
     const content = e.dataTransfer.getData('text/plain');
-    if (content && content !== "undefined") {
-      if (JSON.parse(content).content) {
+    const dataToTransfer = JSON.stringify(content);
+    const draggedBlock = JSON?.parse(dataToTransfer);
+    try {
+      if (draggedBlock.content) {
         const closestContainer = Number((e.target as HTMLElement).closest('.new_container')?.getAttribute("data-id")) ?? 0;
         const updatedDraggedItem = [...allData.draggedItem];
-        updatedDraggedItem.splice(closestContainer, 0, JSON.parse(content)); // Adding data to the second index
+        updatedDraggedItem.splice(closestContainer, 0, draggedBlock.content); // Adding data to the second index
         setAllData(prevData => ({
           ...prevData,
           "draggedItem": updatedDraggedItem
         }));
-      }
     }
+  }
+  catch (error) {
+    console.error('Error parsing JSON:', error);
+  }
   }
   const handleBlockClick = () => {
 
@@ -142,8 +157,7 @@ function Editor() {
                         ) : (
                           <>
                             {item2.blocks.map((item3: DragStart2, index3: number) => {
-                              console.log(item3,"ddddd")
-                              const {id,active,type} = item3.content2[0]
+                              const {id,active,type,text} = item3.content2[0]
                               return (
                                 <div
                                   id={id}
@@ -153,7 +167,22 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${active && "active"}`}
                                 >
-                                  {ModuleType[type]}
+                                  {
+                                    type === "text" ?
+                                    <div className='contentDiv' style={{ padding: "10px" }}>
+                                      <CKEditor
+                                config={editorConfiguration}
+                                editor={ClassicEditor}
+                                data={text}
+                                onChange={(event: any, editor: any) => {
+                                  const data = editor.getData();
+                                }}
+                              />
+                                    </div>
+                                    :
+                                    type === "image"
+                                  }
+
                                 </div>
                               )
                             })}

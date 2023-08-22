@@ -16,6 +16,7 @@ export type DragStart2 = {
     content2: [{
         id:any;
         title?: string;
+        text?: string;
         type: string;
         active?: boolean;
         checked?: string;

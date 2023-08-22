@@ -37,7 +37,7 @@ export const GridBox = [
 export const components:DragStart2[] = [
 {
     id: Math.random(),
-    content2: [{ id: Math.random(), title: "text", type: "text",active: false, style: {align: "left",background: "#ffffff",color: "#000"} }] 
+    content2: [{ id: Math.random(), text:"", title: "text", type: "text",active: false, style: {align: "left",background: "#ffffff",color: "#000"} }] 
 },
 {
     id: Math.random(),
