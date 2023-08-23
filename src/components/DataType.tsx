@@ -12,19 +12,19 @@ export type DragStart = {
     }[],
 }
 export type DragStart2 = {
-    id: Number,
-    content2: [{
-        id:any;
+    id?: Number,
+    content2?: [{
+        id?:any;
         title?: string;
         text?: string;
-        type: string;
+        type?: string;
         active?: boolean;
         checked?: string;
         videoDetails?: string;
         src?: string;
         href?: string[] | string;
         imageDetails?: string;
-        style: {
+        style?: {
             align?: string;
             background?: string;
             color?: string;
@@ -39,7 +39,7 @@ export type DragStart2 = {
             fontSize?: string;
         };
     }]
-}
+} | any
 export type Content = {
     id: number;
     blocks: any;

@@ -11,8 +11,7 @@ import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import TextBox from './components/TextBox';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ImageBox from './components/ImageBox';
 
 
 
@@ -21,12 +20,7 @@ function Editor() {
     ...styleData,
   };
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
-  const editorConfiguration = {
-    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'fontSize'],
-    fontSize: {
-      options: [9, 11, 13, 'default', 17, 19, 21]
-    }
-  };
+
 
   const [allData, setAllData] = useState({
     "draggedItem": initialState,
@@ -44,9 +38,9 @@ function Editor() {
     try {
       const dataToTransfer = JSON.stringify(draggedItemId);
       const draggedBlock = JSON?.parse(dataToTransfer);
-      if (draggedBlock?.content2) {
+      if (JSON.parse(dataToTransfer).content2) {
         const updatedDraggedItem = [...allData.draggedItem];
-        updatedDraggedItem[index].content[index2].blocks.push(draggedBlock);
+        updatedDraggedItem[index].content[index2].blocks.push(JSON?.parse(draggedBlock));
         setAllData(prevData => ({
           ...prevData,
           "draggedItem": updatedDraggedItem
@@ -62,13 +56,13 @@ function Editor() {
   const handleDrop2 = (e: e) => {
     e.preventDefault();
     const content = e.dataTransfer.getData('text/plain');
-    const dataToTransfer = JSON.stringify(content);
-    const draggedBlock = JSON?.parse(dataToTransfer);
     try {
-      if (draggedBlock.content) {
+      const dataToTransfer = JSON.stringify(content);
+      const draggedBlock = JSON?.parse(dataToTransfer);
+      if (JSON.parse(dataToTransfer).content) {
         const closestContainer = Number((e.target as HTMLElement).closest('.new_container')?.getAttribute("data-id")) ?? 0;
         const updatedDraggedItem = [...allData.draggedItem];
-        updatedDraggedItem.splice(closestContainer, 0, draggedBlock.content); // Adding data to the second index
+        updatedDraggedItem.splice(closestContainer, 0, JSON?.parse(draggedBlock)); // Adding data to the second index
         setAllData(prevData => ({
           ...prevData,
           "draggedItem": updatedDraggedItem
@@ -83,9 +77,7 @@ function Editor() {
 
   }
 
-  const ModuleType: { [key: string]: React.ReactNode } = {
-  "text": <TextBox />,
-}
+
   return (
     <div className='main_cont'>
       <Accordion>
@@ -156,8 +148,8 @@ function Editor() {
                           </div>
                         ) : (
                           <>
-                            {item2.blocks.map((item3: DragStart2, index3: number) => {
-                              const {id,active,type,text} = item3.content2[0]
+                            {item2.blocks?.map((item3: DragStart2, index3: number) => {
+                              const {id,active,type} = item3.content2[0]
                               return (
                                 <div
                                   id={id}
@@ -166,21 +158,14 @@ function Editor() {
                                     handleBlockClick(); // You might want to pass some arguments here
                                   }}
                                   className={`boxStyle ${active && "active"}`}
-                                >
+                                  >
                                   {
                                     type === "text" ?
-                                    <div className='contentDiv' style={{ padding: "10px" }}>
-                                      <CKEditor
-                                config={editorConfiguration}
-                                editor={ClassicEditor}
-                                data={text}
-                                onChange={(event: any, editor: any) => {
-                                  const data = editor.getData();
-                                }}
-                              />
-                                    </div>
+                                    <TextBox data={item3.content2[0]}  />
                                     :
-                                    type === "image"
+                                   type === "image" ?
+                                   <ImageBox />
+                                   : ""
                                   }
 
                                 </div>
