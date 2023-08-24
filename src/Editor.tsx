@@ -12,6 +12,11 @@ import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import TextBox from './components/TextBox';
 import ImageBox from './components/ImageBox';
+import ButtonBox from './components/ButtonBox';
+import SocialBox from './components/SocialBox';
+import SpacerBox from './components/SpacerBox';
+import MenuBox from './components/MenuBox';
+import VideoBox from './components/VideoBox';
 
 
 
@@ -33,12 +38,11 @@ function Editor() {
   }
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, item2: any, index: any, index2: any) => {
     e.preventDefault();
-
     const draggedItemId = e.dataTransfer.getData('text/plain');
     try {
       const dataToTransfer = JSON.stringify(draggedItemId);
       const draggedBlock = JSON?.parse(dataToTransfer);
-      if (JSON.parse(dataToTransfer).content2) {
+      if (JSON.parse(draggedBlock).content2) {
         const updatedDraggedItem = [...allData.draggedItem];
         updatedDraggedItem[index].content[index2].blocks.push(JSON?.parse(draggedBlock));
         setAllData(prevData => ({
@@ -59,7 +63,7 @@ function Editor() {
     try {
       const dataToTransfer = JSON.stringify(content);
       const draggedBlock = JSON?.parse(dataToTransfer);
-      if (JSON.parse(dataToTransfer).content) {
+      if (JSON.parse(draggedBlock).content) {
         const closestContainer = Number((e.target as HTMLElement).closest('.new_container')?.getAttribute("data-id")) ?? 0;
         const updatedDraggedItem = [...allData.draggedItem];
         updatedDraggedItem.splice(closestContainer, 0, JSON?.parse(draggedBlock)); // Adding data to the second index
@@ -164,8 +168,22 @@ function Editor() {
                                     <TextBox data={item3.content2[0]}  />
                                     :
                                    type === "image" ?
-                                   <ImageBox />
-                                   : ""
+                                   <ImageBox  data={item3.content2[0]} />
+                                   : 
+                                   type === "button" ?
+                                   <ButtonBox />
+                                   : 
+                                   type === "social" ?
+                                   <SocialBox />
+                                   :
+                                   type === "menu" ?
+                                   <MenuBox />
+                                   :
+                                   type === "spacer" ?
+                                   <SpacerBox />
+                                   :
+                                   <VideoBox />
+
                                   }
 
                                 </div>

@@ -59,3 +59,34 @@ export type selctedDetailsType = {
   itemIndex3: number;
 }
   export type e  = React.DragEvent<HTMLDivElement>
+
+
+  export type AllBoxProps = {
+    data: {
+        id?:any;
+        title?: string;
+        text?: string;
+        type?: string;
+        active?: boolean;
+        checked?: string;
+        videoDetails?: string;
+        src?: string;
+        href?: string[] | string;
+        imageDetails?: string;
+        style: {
+            align?: "left" | "center" | "right";
+            background?: string;
+            color?: string;
+            width?: number;
+            height?: number;
+            width2?: number;
+            height2?: number;
+            border?: number;
+            border2?: number;
+            bgColor?: string;
+            borderRadius?: string;
+            fontSize?: string;
+        };
+    };
+  }
+  
