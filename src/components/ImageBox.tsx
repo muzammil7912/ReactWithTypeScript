@@ -21,7 +21,7 @@ function ImageBox(props: AllBoxProps) {
         />
       ) : (
         <div className='contentDiv' style={{ padding: "10px" }}>
-          <img src={Empty} alt="" style={{ width: "100%" }} />
+          <img src={Empty} alt="img" style={{ width: "100%" }} />
         </div>
       )}
     </div>
