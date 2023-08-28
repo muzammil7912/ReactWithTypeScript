@@ -59,7 +59,15 @@ export type selctedDetailsType = {
   itemIndex3: number;
 }
   export type e  = React.DragEvent<HTMLDivElement>
-
+  export type types = {
+    text: React.JSX.Element;
+    image: React.JSX.Element;
+    button: React.JSX.Element;
+    social: React.JSX.Element;
+    menu: React.JSX.Element;
+    spacer: React.JSX.Element;
+    video: React.JSX.Element;
+};
 
   export type AllBoxProps = {
     data: {

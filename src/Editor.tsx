@@ -17,6 +17,7 @@ import SocialBox from './components/SocialBox';
 import SpacerBox from './components/SpacerBox';
 import MenuBox from './components/MenuBox';
 import VideoBox from './components/VideoBox';
+import { AllTypeControl } from './components/AllTypeControl';
 
 
 
@@ -153,7 +154,8 @@ function Editor() {
                         ) : (
                           <>
                             {item2.blocks?.map((item3: DragStart2, index3: number) => {
-                              const {id,active,type} = item3.content2[0]
+                              const {id,active} = item3.content2[0]
+                              const data = item3.content2[0]
                               return (
                                 <div
                                   id={id}
@@ -163,29 +165,8 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${active && "active"}`}
                                   >
-                                  {
-                                    type === "text" ?
-                                    <TextBox data={item3.content2[0]}  />
-                                    :
-                                   type === "image" ?
-                                   <ImageBox  data={item3.content2[0]} />
-                                   : 
-                                   type === "button" ?
-                                   <ButtonBox />
-                                   : 
-                                   type === "social" ?
-                                   <SocialBox />
-                                   :
-                                   type === "menu" ?
-                                   <MenuBox />
-                                   :
-                                   type === "spacer" ?
-                                   <SpacerBox />
-                                   :
-                                   <VideoBox />
-
-                                  }
-
+                                    {AllTypeControl( data)}
+                                
                                 </div>
                               )
                             })}

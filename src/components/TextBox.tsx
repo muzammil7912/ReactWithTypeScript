@@ -5,6 +5,7 @@ import { AllBoxProps } from './DataType';
 
 
 function TextBox({ data }: AllBoxProps) {
+  console.log(data)
   const { text } = data;
   
   const editorConfiguration = {
