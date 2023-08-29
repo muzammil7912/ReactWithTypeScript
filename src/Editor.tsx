@@ -165,7 +165,7 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${active && "active"}`}
                                   >
-                                    {AllTypeControl( data)}
+                                    {<AllTypeControl data={data}/>}
                                 
                                 </div>
                               )
