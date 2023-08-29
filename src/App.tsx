@@ -6,6 +6,7 @@ import Editor from './Editor';
 function App() {
   return (
     <div className="App">
+      
    <Routes>
    <Route path='/' element={<Editor />} />
    </Routes>
