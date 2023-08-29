@@ -13,7 +13,7 @@ function TextBox({ data }: AllBoxProps) {
     fontSize: {
       options: [9, 11, 13, 'default', 17, 19, 21]
     },
-    removePlugins: ['easyimage'] // Remove the 'easyimage' plugin
+    removePlugins: ['dropoff'] // Remove the 'easyimage' plugin
   };
   
   return (

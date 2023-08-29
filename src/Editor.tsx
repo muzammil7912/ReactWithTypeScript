@@ -10,13 +10,6 @@ import { CgSpaceBetweenV } from "react-icons/cg"
 import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
-import TextBox from './components/TextBox';
-import ImageBox from './components/ImageBox';
-import ButtonBox from './components/ButtonBox';
-import SocialBox from './components/SocialBox';
-import SpacerBox from './components/SpacerBox';
-import MenuBox from './components/MenuBox';
-import VideoBox from './components/VideoBox';
 import { AllTypeControl } from './components/AllTypeControl';
 
 
@@ -85,6 +78,7 @@ function Editor() {
 
   return (
     <div className='main_cont'>
+      
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Structure</Accordion.Header>
@@ -165,7 +159,7 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${active && "active"}`}
                                   >
-                                    {<AllTypeControl data={data}/>}
+                                    {<AllTypeControl  data={data}/>}
                                 
                                 </div>
                               )
