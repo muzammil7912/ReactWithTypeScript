@@ -71,9 +71,25 @@ function Editor() {
     console.error('Error parsing JSON:', error);
   }
   }
-  const handleBlockClick = () => {
-
-  }
+  // type AppState = {
+  //   draggedItem: DroppedItem[];
+  // };
+  const handleBlockClick = (
+    index: [number,number,number],
+    block: DragStart2
+  ) => {
+    setAllData((prevData) => ({
+      ...prevData,
+      "draggedItem": initialState[index[0]].content[index[1]].blocks[index[2]].content2[0].active ,
+      selctedDetails: {
+        type: block.content2[0].type,
+        active: true,
+        itemIndex1: index[0],
+        itemIndex2: index[1],
+        itemIndex3: index[2],
+      },
+    }));
+  };
 
 
   return (
@@ -112,7 +128,7 @@ function Editor() {
                 const { content2 } = item
                 return (
                   <div className='draggable-item'
-                    key={content2[0].id}
+                    key={content2.id}
                     draggable={true}
                     onDragStart={(e) => handleDragStart(item, e)}>
                     {Icon[index]}
@@ -155,7 +171,7 @@ function Editor() {
                                   id={id}
                                   key={index3}
                                   onClick={(e) => {
-                                    handleBlockClick(); // You might want to pass some arguments here
+                                    handleBlockClick([index,index2,index3],item3); // You might want to pass some arguments here
                                   }}
                                   className={`boxStyle ${active && "active"}`}
                                   >
