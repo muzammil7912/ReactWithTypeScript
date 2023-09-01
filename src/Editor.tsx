@@ -176,7 +176,7 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${(itemIndex1 === index) && (itemIndex2 === index2) && (itemIndex3 === index3 ) && selctedDetails.active ? "active" : "fff"}`}
                                   >
-                                    {<AllTypeControl update={setAllData} selctedDetails={allData.selctedDetails}  data={data}/>}
+                                    {<AllTypeControl update={setAllData} allData={allData}   data={data}/>}
                                 
                                 </div>
                               )

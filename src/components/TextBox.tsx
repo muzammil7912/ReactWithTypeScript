@@ -1,11 +1,17 @@
 import React from 'react'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { AllBoxProps } from './DataType';
+import { AllTypeControlProps, DroppedItem } from './DataType';
 
 
-function TextBox({ data, update, selctedDetails }: AllTypeControlProps) {
+function TextBox({ data, update, allData }: AllTypeControlProps) {
+  const {selctedDetails,draggedItem} = allData
+  const {itemIndex1,itemIndex2,itemIndex3} = selctedDetails
   const { text } = data;
+  const initialState = {
+    draggedItem: [] as DroppedItem[], // Ensure it's an array of DroppedItem
+    // ... other properties
+  };
   
   const editorConfiguration = {
     toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'fontSize'],
@@ -23,6 +29,12 @@ function TextBox({ data, update, selctedDetails }: AllTypeControlProps) {
         data={text}
         onChange={(event: any, editor: any) => {
           const updatedData = editor.getData();
+          const updatedDraggedItem = { ...draggedItem }; // Make sure it's a single object, not an array
+          updatedDraggedItem[itemIndex1].content[itemIndex2].blocks[itemIndex3].content2[0].text = updatedData;
+          update((prev) => ({
+            ...prev,
+            draggedItem: [...prev.draggedItem, updatedDraggedItem]
+          }));
         }}
       />
     </div>

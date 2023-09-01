@@ -1,8 +1,8 @@
 import React from 'react';
-import { AllBoxProps } from './DataType';
+import { AllTypeControlProps } from './DataType';
 import Empty from '../assets/demo.jpg';
 
-function ImageBox({ data, update, selctedDetails }: AllTypeControlProps) {
+function ImageBox({ data, update, allData }: AllTypeControlProps) {
   const { style,src } = data;
   const { align, width, height } = style;
   
