@@ -4,8 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AllBoxProps } from './DataType';
 
 
-function TextBox({ data }: AllBoxProps) {
-  console.log(data)
+function TextBox({ data, update, selctedDetails }: AllTypeControlProps) {
   const { text } = data;
   
   const editorConfiguration = {

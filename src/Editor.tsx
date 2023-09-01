@@ -80,7 +80,6 @@ function Editor() {
   ) => {
     setAllData((prevData) => ({
       ...prevData,
-      "draggedItem": initialState[index[0]].content[index[1]].blocks[index[2]].content2[0].active ,
       selctedDetails: {
         type: block.content2[0].type,
         active: true,
@@ -128,7 +127,7 @@ function Editor() {
                 const { content2 } = item
                 return (
                   <div className='draggable-item'
-                    key={content2.id}
+                    key={index}
                     draggable={true}
                     onDragStart={(e) => handleDragStart(item, e)}>
                     {Icon[index]}
@@ -164,18 +163,20 @@ function Editor() {
                         ) : (
                           <>
                             {item2.blocks?.map((item3: DragStart2, index3: number) => {
-                              const {id,active} = item3.content2[0]
+                              const {id} = item3.content2[0]
+                              const {selctedDetails} = allData
+                              const {itemIndex1,itemIndex2,itemIndex3} = selctedDetails
                               const data = item3.content2[0]
                               return (
                                 <div
                                   id={id}
                                   key={index3}
-                                  onClick={(e) => {
+                                  onClick={() => {
                                     handleBlockClick([index,index2,index3],item3); // You might want to pass some arguments here
                                   }}
-                                  className={`boxStyle ${active && "active"}`}
+                                  className={`boxStyle ${(itemIndex1 === index) && (itemIndex2 === index2) && (itemIndex3 === index3 ) && selctedDetails.active ? "active" : "fff"}`}
                                   >
-                                    {<AllTypeControl  data={data}/>}
+                                    {<AllTypeControl update={setAllData} selctedDetails={allData.selctedDetails}  data={data}/>}
                                 
                                 </div>
                               )

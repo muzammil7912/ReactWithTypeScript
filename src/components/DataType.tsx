@@ -98,3 +98,13 @@ export type selctedDetailsType = {
     };
   }
   
+
+  export type AllTypeControlProps = {
+    data: AllBoxProps['data'];
+    update: React.Dispatch<React.SetStateAction<{
+      draggedItem: DroppedItem[]; 
+      selctedDetails: selctedDetailsType; 
+    }>>;
+    selctedDetails: selctedDetailsType | null;
+  };
+  

@@ -531,3 +531,9 @@ text-align: right !important;
 input.activess {
   border: 1px solid red;
 }
+.boxStyle .ck.ck-editor__top.ck-reset_all  {
+  display:none;
+}
+.boxStyle.active .ck.ck-editor__top.ck-reset_all  {
+  display:block
+}

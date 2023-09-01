@@ -2,8 +2,8 @@ import React from 'react';
 import { AllBoxProps } from './DataType';
 import Empty from '../assets/demo.jpg';
 
-function ImageBox(props: AllBoxProps) {
-  const { style,src } = props.data;
+function ImageBox({ data, update, selctedDetails }: AllTypeControlProps) {
+  const { style,src } = data;
   const { align, width, height } = style;
   
   return (
