@@ -1,8 +1,8 @@
-import React, { useReducer, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { styleData } from './components/Style';
 import { GridBox, components, initialState, selctedDetails } from './components/data';
-import { DragStart, DragStart2, DroppedItem, content, e } from './components/DataType';
+import { DragStart, DragStart2, DroppedItem, content, e, selctedDetailsType } from './components/DataType';
 import { MdFormatAlignLeft } from "react-icons/md"
 import { RxButton } from "react-icons/rx"
 import { BsCardImage, BsShareFill } from "react-icons/bs"
@@ -11,6 +11,7 @@ import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import { AllTypeControl } from './components/AllTypeControl';
+import { MainDataUpdateContext } from "./context/MainDataUpdateContext";
 
 
 
@@ -19,12 +20,21 @@ function Editor() {
     ...styleData,
   };
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
+  const { dataupdate,addDataupdate } = useContext(MainDataUpdateContext)
 
-
-  const [allData, setAllData] = useState({
+  const [allData, setAllData] = useState<{ draggedItem: DroppedItem[];
+    selctedDetails: selctedDetailsType}>({
     "draggedItem": initialState,
     "selctedDetails": selctedDetails
   })
+  useEffect(() => {
+    addDataupdate<{ draggedItem: DroppedItem[];
+      selctedDetails: selctedDetailsType}>({
+      "draggedItem": initialState,
+      "selctedDetails": selctedDetails
+    })
+  }, [])
+  
 
   const handleDragStart = (item: DragStart | DragStart2, e: e) => {
     const serializedData = JSON.stringify(item);
@@ -88,6 +98,17 @@ function Editor() {
         itemIndex3: index[2],
       },
     }));
+    addDataupdate((prevData:any) => ({
+      ...prevData,
+      selctedDetails: {
+        type: block.content2[0].type,
+        active: true,
+        itemIndex1: index[0],
+        itemIndex2: index[1],
+        itemIndex3: index[2],
+      },
+    }))
+
   };
 
 
@@ -176,7 +197,7 @@ function Editor() {
                                   }}
                                   className={`boxStyle ${(itemIndex1 === index) && (itemIndex2 === index2) && (itemIndex3 === index3 ) && selctedDetails.active ? "active" : "fff"}`}
                                   >
-                                    {<AllTypeControl update={setAllData} allData={allData}   data={data}/>}
+                                    {<AllTypeControl update={setAllData} allData={allData}  data={data}/>}
                                 
                                 </div>
                               )

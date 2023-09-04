@@ -48,15 +48,15 @@ export type Content = {
     type: string;
   };
 export type DroppedItem = {
-    content?: Content[];
+    content: Content[];
   };
   export type content = Content[]
 export type selctedDetailsType = {
   type: string;
   active: boolean;
-  itemIndex1?: number;
-  itemIndex2?: number;
-  itemIndex3?: number;
+  itemIndex1: number;
+  itemIndex2: number;
+  itemIndex3: number;
 }
   export type e  = React.DragEvent<HTMLDivElement>
   export type types = {

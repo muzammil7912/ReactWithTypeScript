@@ -2,16 +2,15 @@ import React from 'react'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AllTypeControlProps, DroppedItem } from './DataType';
-
+import { styleData } from './Style';
 
 function TextBox({ data, update, allData }: AllTypeControlProps) {
+  const combinedStyles: Record<string, React.CSSProperties> = {
+    ...styleData,
+  };
   const {selctedDetails,draggedItem} = allData
   const {itemIndex1,itemIndex2,itemIndex3} = selctedDetails
   const { text } = data;
-  const initialState = {
-    draggedItem: [] as DroppedItem[], // Ensure it's an array of DroppedItem
-    // ... other properties
-  };
   
   const editorConfiguration = {
     toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'fontSize'],
@@ -22,14 +21,14 @@ function TextBox({ data, update, allData }: AllTypeControlProps) {
   };
   
   return (
-    <div className='contentDiv' style={{ padding: '10px' }}>
+    <div className='contentDiv' style={combinedStyles["Box5"]}>
       <CKEditor
         config={editorConfiguration}
         editor={ClassicEditor}
         data={text}
         onChange={(event: any, editor: any) => {
           const updatedData = editor.getData();
-          const updatedDraggedItem = { ...draggedItem }; // Make sure it's a single object, not an array
+          const updatedDraggedItem = { ...draggedItem };
           updatedDraggedItem[itemIndex1].content[itemIndex2].blocks[itemIndex3].content2[0].text = updatedData;
           update((prev) => ({
             ...prev,

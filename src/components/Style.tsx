@@ -22,4 +22,7 @@ export const styleData = {
     margin: "20px 0px", 
     textAlign: "center" as 'center',
   },
+  "Box5": {
+    padding: '10px' 
+  },
 }
