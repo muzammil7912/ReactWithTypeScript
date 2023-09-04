@@ -11,16 +11,15 @@ import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import { AllTypeControl } from './components/AllTypeControl';
-import { MainDataUpdateContext } from "./context/MainDataUpdateContext";
-
-
+import { AllDataContextType, MainCalenderIdContext } from "./context/MainDataUpdateContext";
 
 function Editor() {
   const combinedStyles: Record<string, React.CSSProperties> = {
     ...styleData,
   };
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
-  const { dataupdate,addDataupdate } = useContext(MainDataUpdateContext)
+  const { dataupdate, addDataupdate } = useContext(MainCalenderIdContext) ?? {};
+
 
   const [allData, setAllData] = useState<{ draggedItem: DroppedItem[];
     selctedDetails: selctedDetailsType}>({

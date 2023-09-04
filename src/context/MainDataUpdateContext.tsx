@@ -1,10 +1,14 @@
+// MainDataUpdateContext.tsx
 import React, { useState, createContext, useContext } from "react";
 
 export type AllDataContextType = {
   dataupdate: any;
+  addDataupdate: (newValue: any) => void;
 };
 
-const [dataupdate, setDataupdate] = useState<AllDataContextType>("");
+export const MainCalenderIdContext = createContext<AllDataContextType | undefined>(
+  undefined
+);
 
 const MainDataUpdateProvider = ({ children }: { children: JSX.Element }) => {
   const [dataupdate, setDataupdate] = useState<any>(null);
@@ -14,9 +18,9 @@ const MainDataUpdateProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   return (
-    <MainDataUpdateContext.Provider value={{ dataupdate, addDataupdate }}>
+    <MainCalenderIdContext.Provider value={{ dataupdate, addDataupdate }}>
       {children}
-    </MainDataUpdateContext.Provider>
+    </MainCalenderIdContext.Provider>
   );
 };
 
