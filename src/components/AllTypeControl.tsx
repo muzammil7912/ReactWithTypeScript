@@ -8,11 +8,11 @@ import SpacerBox from "./SpacerBox";
 import TextBox from "./TextBox";
 import VideoBox from "./VideoBox";
 
-export function AllTypeControl ({ data, update, allData }: AllTypeControlProps) {
+export function AllTypeControl ({ data }: AllTypeControlProps) {
     const { type } = data;
     const types: types = {
-        "text": <TextBox update={update} allData={allData}  data={data} />,
-        "image": <ImageBox update={update} allData={allData}  data={data} />,
+        "text": <TextBox    />,
+        "image": <ImageBox  />,
         "button": <ButtonBox />,
         "social": <SocialBox />,
         "menu": <MenuBox />,
