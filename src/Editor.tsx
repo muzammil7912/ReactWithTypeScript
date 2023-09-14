@@ -11,15 +11,15 @@ import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { PiUploadSimple, PiVideoFill } from "react-icons/pi"
 import { capitalizeFirstLetter, handleDragOver } from './components/common';
 import { AllTypeControl } from './components/AllTypeControl';
-import {  MainCalenderIdContext } from "./context/MainDataUpdateContext";
+import {  AllDataContextType, MainCalenderIdContext } from "./context/MainDataUpdateContext";
 
 function Editor() {
   const combinedStyles: Record<string, React.CSSProperties> = {
     ...styleData,
   };
   const Icon = [<MdFormatAlignLeft />, <RxButton />, <BsCardImage />, <BsCardImage />, <BsShareFill />, <CgSpaceBetweenV />, <TfiLayoutMenuSeparated />, <PiUploadSimple />, <PiVideoFill />]
-  const { dataupdate, setDataupdate } = useContext(MainCalenderIdContext) ?? {};
-
+  const context = useContext<AllDataContextType | undefined>(MainCalenderIdContext);
+  const { dataupdate = { draggedItem: [], selctedDetails: {} }, setDataupdate = () => {} } = context || {};
   const handleDragStart = (item: DragStart | DragStart2, e: e) => {
     const serializedData = JSON.stringify(item);
     e.dataTransfer.setData('text/plain', serializedData);
@@ -148,7 +148,7 @@ function Editor() {
       >
         <div style={combinedStyles["Box1"]}>
           {
-            dataupdate.draggedItem?.map((item, index) => {
+            dataupdate && dataupdate.draggedItem?.map((item, index) => {
               const { content } = item;
               return (
                 <div className='container new_container' data-id={index} key={index} style={combinedStyles["Box2"]}>
@@ -165,25 +165,29 @@ function Editor() {
                           </div>
                         ) : (
                           <>
-                            {item2.blocks?.map((item3: DragStart2, index3: number) => {
-                              const {id} = item3.content2[0]
-                              const {selctedDetails} = dataupdate
-                              const {itemIndex1,itemIndex2,itemIndex3} = selctedDetails
-                              const data = item3.content2[0]
-                              return (
-                                <div
-                                  id={id}
-                                  key={index3}
-                                  onClick={() => {
-                                    handleBlockClick([index,index2,index3],item3); // You might want to pass some arguments here
-                                  }}
-                                  className={`boxStyle ${(itemIndex1 === index) && (itemIndex2 === index2) && (itemIndex3 === index3 ) && selctedDetails.active ? "active" : "fff"}`}
-                                  >
-                                    {<AllTypeControl data={data}/>}
-                                
-                                </div>
-                              )
-                            })}
+{item2.blocks?.map((item3: DragStart2, index3: number) => {
+  const { id } = item3.content2[0];
+  const { selectedDetails } = dataupdate; // Typo corrected here
+  const { itemIndex1, itemIndex2, itemIndex3, active } = selectedDetails || {}; // Typo corrected here
+  const data = item3.content2[0];
+  
+  // Check karein ki properties defined hain ya nahi
+  if (itemIndex1 !== undefined && itemIndex2 !== undefined && itemIndex3 !== undefined && active !== undefined) {
+    return (
+      <div
+        id={id}
+        key={index3}
+        onClick={() => {
+          handleBlockClick([index, index2, index3], item3);
+        }}
+        className={`boxStyle ${(itemIndex1 === index) && (itemIndex2 === index2) && (itemIndex3 === index3) && active ? "active" : "fff"}`}
+      >
+        {<AllTypeControl data={data} />}
+      </div>
+    );
+  }
+  return null; // Return null if properties are not defined
+})}
                           </>
                         )}
                       </div>
